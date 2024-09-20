@@ -42,6 +42,11 @@ namespace TakedaMockModels
 
         public List<String> Tegnologies { get; set; }
 
+        public List<String> Images { get; set; }
+
+        public IList<TrainingActivity> TrainingActivities { get; set; }
+
+        public IList<Colleague> Colleagues { get; set; }
 
     }
 }

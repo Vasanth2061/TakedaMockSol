@@ -17,6 +17,7 @@
   <ItemGroup>
     <ProjectReference Include="..\TakedaMockData\TakedaMockDataAccess.csproj" />
     <ProjectReference Include="..\TakedaMockModels\TakedaMockModels.csproj" />
+    <ProjectReference Include="..\TakedaServices\TakedaServices.csproj" />
   </ItemGroup>
 
 </Project>

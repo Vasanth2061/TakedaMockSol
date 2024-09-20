@@ -25,14 +25,21 @@ namespace TakedaMockData
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<Member>().HasData(
-               new Member 
-               { 
-                   Id=1, BackGround="A 2024 Graduate working in Deloitte for 2 months", DateOfBirth= new DateOnly(2002, 2,21 ),
-                   Hobbies=new List<string> { "Cricket","Light Novels"},Name="Vasanth M", 
-                   PhoneNumber="7975110608", UnivEducation="Btech ECE, NITK",
-                   Tegnologies= new List<string> { "C#", "SQL Server", "HTML", "CSS", "JavaScript"},
-                   StreetAddress="No 439, Vasanth Nilayam,3rd cross, Prakruti Badavane layout, Anchepalya",
-                   City="Bangalore", State="Karnataka", PinCode="560057"
+               new Member
+               {
+                   Id = 1,
+                   BackGround = "A 2024 Graduate working in Deloitte for 2 months",
+                   DateOfBirth = new DateOnly(2002, 2, 21),
+                   Hobbies = new List<string> { "Cricket", "Light Novels" },
+                   Name = "Vasanth M",
+                   PhoneNumber = "7975110608",
+                   UnivEducation = "Btech ECE, NITK",
+                   Tegnologies = new List<string> { "C#", "SQL Server", "HTML", "CSS", "JavaScript" },
+                   StreetAddress = "No 439, Vasanth Nilayam,3rd cross, Prakruti Badavane layout, Anchepalya",
+                   City = "Bangalore",
+                   State = "Karnataka",
+                   PinCode = "560057",
+                   Images = new List<string> {"",""}
                }
             );
 
