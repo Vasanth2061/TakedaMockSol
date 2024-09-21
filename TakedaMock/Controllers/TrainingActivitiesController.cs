@@ -60,7 +60,7 @@ namespace TakedaMock.Controllers
 
         // DELETE: api/TrainingActivities/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteCountry(int id)
+        public async Task<IActionResult> DeleteTrainingActivity(int id)
         {
             var trainingActivity = await _unitOfWork.TrainingActivityRepository.Get(u => u.Id == id);
             _unitOfWork.TrainingActivityRepository.Remove(trainingActivity);

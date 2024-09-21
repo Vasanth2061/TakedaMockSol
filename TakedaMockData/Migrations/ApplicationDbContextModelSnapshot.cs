@@ -47,7 +47,7 @@ namespace TakedaMockDataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Colleagues");
+                    b.ToTable("Colleagues", (string)null);
 
                     b.HasData(
                         new
@@ -120,7 +120,7 @@ namespace TakedaMockDataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Members");
+                    b.ToTable("Members", (string)null);
 
                     b.HasData(
                         new
@@ -167,7 +167,7 @@ namespace TakedaMockDataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("TrainingActivities");
+                    b.ToTable("TrainingActivities", (string)null);
 
                     b.HasData(
                         new
