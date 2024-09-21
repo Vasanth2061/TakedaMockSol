@@ -12,8 +12,8 @@ using TakedaMockData;
 namespace TakedaMockDataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240920052845_AddedAndSeededTrainingActivityTable")]
-    partial class AddedAndSeededTrainingActivityTable
+    [Migration("20240920163818_AddedOneToManyDependecies")]
+    partial class AddedOneToManyDependecies
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,6 +25,51 @@ namespace TakedaMockDataAccess.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("TakedaMockModels.Colleague", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ImageURL")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsTeamMemeber")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("MemberId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MemberId");
+
+                    b.ToTable("Colleagues");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Description = " Met during SPARK training. Both of us are Tamilains, so got along well",
+                            ImageURL = " ",
+                            IsTeamMemeber = true,
+                            MemberId = 1,
+                            Name = "Jeevan Krishna"
+                        });
+                });
+
             modelBuilder.Entity("TakedaMockModels.Member", b =>
                 {
                     b.Property<int>("Id")
@@ -35,8 +80,8 @@ namespace TakedaMockDataAccess.Migrations
 
                     b.Property<string>("BackGround")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasMaxLength(300)
+                        .HasColumnType("nvarchar(300)");
 
                     b.Property<string>("City")
                         .IsRequired()
@@ -49,9 +94,14 @@ namespace TakedaMockDataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Name")
+                    b.Property<string>("Images")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
 
                     b.Property<string>("PhoneNumber")
                         .IsRequired()
@@ -89,6 +139,7 @@ namespace TakedaMockDataAccess.Migrations
                             City = "Bangalore",
                             DateOfBirth = new DateOnly(2002, 2, 21),
                             Hobbies = "[\"Cricket\",\"Light Novels\"]",
+                            Images = "[\"\",\"\"]",
                             Name = "Vasanth M",
                             PhoneNumber = "7975110608",
                             PinCode = "560057",
@@ -114,6 +165,9 @@ namespace TakedaMockDataAccess.Migrations
                     b.Property<DateOnly>("EndDate")
                         .HasColumnType("date");
 
+                    b.Property<int>("MemberId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -123,6 +177,8 @@ namespace TakedaMockDataAccess.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("MemberId");
+
                     b.ToTable("TrainingActivities");
 
                     b.HasData(
@@ -131,9 +187,39 @@ namespace TakedaMockDataAccess.Migrations
                             Id = 1,
                             Description = "Learnt about DDL,DML queries, the types of locks, triggers, functions and stored procedures",
                             EndDate = new DateOnly(2024, 7, 30),
-                            Name = "SQL SErver Foundation-Intermediate",
+                            MemberId = 1,
+                            Name = "SQL Server Foundation-Intermediate",
                             StartDate = new DateOnly(2024, 7, 15)
                         });
+                });
+
+            modelBuilder.Entity("TakedaMockModels.Colleague", b =>
+                {
+                    b.HasOne("TakedaMockModels.Member", "Member")
+                        .WithMany("Colleagues")
+                        .HasForeignKey("MemberId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Member");
+                });
+
+            modelBuilder.Entity("TakedaMockModels.TrainingActivity", b =>
+                {
+                    b.HasOne("TakedaMockModels.Member", "Member")
+                        .WithMany("TrainingActivities")
+                        .HasForeignKey("MemberId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Member");
+                });
+
+            modelBuilder.Entity("TakedaMockModels.Member", b =>
+                {
+                    b.Navigation("Colleagues");
+
+                    b.Navigation("TrainingActivities");
                 });
 #pragma warning restore 612, 618
         }

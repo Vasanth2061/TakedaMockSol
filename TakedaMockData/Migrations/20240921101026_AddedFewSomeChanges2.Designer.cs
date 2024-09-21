@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TakedaMockData;
 
@@ -10,9 +11,11 @@ using TakedaMockData;
 namespace TakedaMockDataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240921101026_AddedFewSomeChanges2")]
+    partial class AddedFewSomeChanges2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -40,12 +43,17 @@ namespace TakedaMockDataAccess.Migrations
                     b.Property<bool>("IsTeamMemeber")
                         .HasColumnType("bit");
 
+                    b.Property<int>("MemberId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("MemberId");
 
                     b.ToTable("Colleagues");
 
@@ -56,6 +64,7 @@ namespace TakedaMockDataAccess.Migrations
                             Description = " Met during SPARK training. Both of us are Tamilains, so got along well",
                             ImageURL = " ",
                             IsTeamMemeber = true,
+                            MemberId = 1,
                             Name = "Jeevan Krishna"
                         });
                 });
@@ -157,6 +166,9 @@ namespace TakedaMockDataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("MemberId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -167,6 +179,8 @@ namespace TakedaMockDataAccess.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("MemberId");
+
                     b.ToTable("TrainingActivities");
 
                     b.HasData(
@@ -175,9 +189,39 @@ namespace TakedaMockDataAccess.Migrations
                             Id = 1,
                             Description = "Learnt about DDL,DML queries, the types of locks, triggers, functions and stored procedures",
                             EndDate = "30/7/2024",
+                            MemberId = 1,
                             Name = "SQL Server Foundation-Intermediate",
                             StartDate = "15/7/2024"
                         });
+                });
+
+            modelBuilder.Entity("TakedaMockModels.Colleague", b =>
+                {
+                    b.HasOne("TakedaMockModels.Member", "Member")
+                        .WithMany("Colleagues")
+                        .HasForeignKey("MemberId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Member");
+                });
+
+            modelBuilder.Entity("TakedaMockModels.TrainingActivity", b =>
+                {
+                    b.HasOne("TakedaMockModels.Member", "Member")
+                        .WithMany("TrainingActivities")
+                        .HasForeignKey("MemberId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Member");
+                });
+
+            modelBuilder.Entity("TakedaMockModels.Member", b =>
+                {
+                    b.Navigation("Colleagues");
+
+                    b.Navigation("TrainingActivities");
                 });
 #pragma warning restore 612, 618
         }

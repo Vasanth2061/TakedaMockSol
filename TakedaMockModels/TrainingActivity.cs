@@ -18,13 +18,13 @@ namespace TakedaMockModels
         [Required]
         public string Description { get; set; }
         [Required]
-        public DateOnly StartDate { get; set; }
+        public string StartDate { get; set; }
         [Required]
-        public DateOnly EndDate { get; set; }
-        [Required]
-        public int MemberId { get; set; }
-        [ForeignKey(nameof(MemberId))]
-        public Member Member { get; set; }
+        public string EndDate { get; set; }
+        //[Required]
+        //public int MemberId { get; set; }
+        //[ForeignKey(nameof(MemberId))]
+        //public Member Member { get; set; }
 
 
     }

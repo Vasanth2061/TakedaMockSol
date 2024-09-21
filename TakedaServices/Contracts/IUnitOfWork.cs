@@ -13,6 +13,6 @@ namespace TakedaServices.Contracts
         public IMemberRepository MemberRepository { get; }
 
         public ITrainingActivityRepository TrainingActivityRepository { get; }
-        void Save();
+        Task Save();
     }
 }

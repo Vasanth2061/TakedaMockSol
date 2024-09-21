@@ -22,9 +22,9 @@ namespace TakedaMockModels
 
         public Boolean IsTeamMemeber {  get; set; }
 
-        [Required]
-        public int MemberId { get; set; }
-        [ForeignKey(nameof(MemberId))]
-        public Member Member { get; set; }
+        //[Required]
+        //public int MemberId { get; set; }
+        //[ForeignKey(nameof(MemberId))]
+        //public Member Member { get; set; }
     }
 }

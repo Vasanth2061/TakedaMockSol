@@ -16,6 +16,8 @@ namespace TakedaServices.Repositories
         {
             _db = db;
         }
+
+        
         public void Update(Colleague obj)
         {
             _db.Colleagues.Update(obj);

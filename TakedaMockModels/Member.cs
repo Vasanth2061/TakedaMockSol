@@ -4,6 +4,9 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Text.Json.Serialization;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+
 
 namespace TakedaMockModels
 {
@@ -16,7 +19,7 @@ namespace TakedaMockModels
         public string Name { get; set; }
 
         [Required]
-        public DateOnly DateOfBirth { get; set; }
+        public String DateOfBirth { get; set; }
 
 
         [Required]
@@ -44,9 +47,11 @@ namespace TakedaMockModels
 
         public List<String> Images { get; set; }
 
-        public IList<TrainingActivity> TrainingActivities { get; set; }
+        ////[ValidateNever]
+        //public virtual IList<TrainingActivity> TrainingActivities { get; set; }
 
-        public IList<Colleague> Colleagues { get; set; }
+        ////[ValidateNever]
+        //public virtual IList<Colleague> Colleagues { get; set; }
 
     }
 }
