@@ -39,7 +39,7 @@ namespace TakedaMock.Controllers
         // POST: api/MembersMet
         
         [HttpPost]
-        public async Task PostMemberMet(Colleague colleague, IFormFile? file)
+        public async Task PostMemberMet(Colleague colleague, [FromForm] IFormFile? file)
         {
             if (file != null && file.Length > 0)
             {
@@ -61,7 +61,7 @@ namespace TakedaMock.Controllers
         // PUT: api/MembersMet/5
         
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutMemberMet(int id, Colleague colleagueMet, IFormFile? file)
+        public async Task<IActionResult> PutMemberMet(int id, Colleague colleagueMet, [FromForm] IFormFile? file)
         {
 
             Colleague DbColleague = await _unitOfWork.ColleagueRepository.Get(u => u.Id == id);

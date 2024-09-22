@@ -40,7 +40,7 @@ namespace TakedaMock.Controllers
         // POST: api/TeamMembers
         
         [HttpPost]
-        public async Task PostTeamMember(Colleague colleague, IFormFile? file)
+        public async Task PostTeamMember(Colleague colleague, [FromForm] IFormFile? file)
         {
             if (file != null && file.Length > 0)
             {
@@ -62,7 +62,7 @@ namespace TakedaMock.Controllers
         // PUT: api/TeamMembers/5
        
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutTeamMember(int id, Colleague colleagueMet, IFormFile? file)
+        public async Task<IActionResult> PutTeamMember(int id, Colleague colleagueMet, [FromForm] IFormFile? file)
         {
             Colleague DbColleague = await _unitOfWork.ColleagueRepository.Get(u => u.Id == id);
             if (DbColleague == null)
@@ -111,5 +111,28 @@ namespace TakedaMock.Controllers
             await _unitOfWork.Save();
             return NoContent();
         }
+
+        //[HttpPost("upload-image")]
+        //public async Task<IActionResult> UploadImage([FromForm] IFormFile file)
+        //{
+        //    if (file != null && file.Length > 0)
+        //    {
+        //        string wwwRootPath = _webHostEnvironment.WebRootPath;
+        //        string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+        //        string filePath = Path.Combine(wwwRootPath, "images", "product", fileName);
+
+        //        using (var fileStream = new FileStream(filePath, FileMode.Create))
+        //        {
+        //            await file.CopyToAsync(fileStream);
+        //        }
+
+        //        // Return the image URL or file name to the client
+        //        return Ok(new { imageUrl = "/images/product/" + fileName });
+        //    }
+        //    else
+        //    {
+        //        return BadRequest("No file uploaded");
+        //    }
+        //}
     }
 }

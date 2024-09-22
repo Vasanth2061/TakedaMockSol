@@ -39,7 +39,7 @@ namespace TakedaMock.Controllers
         // POST: api/members
        
         [HttpPost]
-        public async Task PostMember(Member createMember,IEnumerable<IFormFile?> files)
+        public async Task PostMember(Member createMember, [FromForm] IEnumerable<IFormFile?> files)
         {
             int i = 0;
             foreach (var file in files)
@@ -66,7 +66,7 @@ namespace TakedaMock.Controllers
         // PUT: api/members/5
        
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutMember(int id, Member member, IEnumerable<IFormFile?> files)
+        public async Task<IActionResult> PutMember(int id, Member member, [FromForm] IEnumerable<IFormFile?> files)
         {
             
             Member DbMember=await _unitOfWork.MemberRepository.Get(u=> u.Id == id);
