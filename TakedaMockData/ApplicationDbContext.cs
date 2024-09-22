@@ -58,7 +58,7 @@ namespace TakedaMockData
                 {
                     Id=1, Name="Jeevan Krishna", ImageURL=" ",
                     Description=" Met during SPARK training. Both of us are Tamilains, so got along well",
-                    IsTeamMemeber=true
+                    IsTeamMember=true
                 }
             );
 

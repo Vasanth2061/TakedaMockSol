@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TakedaMockModels;
 using TakedaServices.Contracts;
@@ -11,9 +12,12 @@ namespace TakedaMock.Controllers
     {
         private readonly IUnitOfWork _unitOfWork;
 
-        public MembersMetController(IUnitOfWork unitOfWork)
+        private readonly IWebHostEnvironment _webHostEnvironment;
+
+        public MembersMetController(IWebHostEnvironment webHostEnvironment,IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
+            _webHostEnvironment = webHostEnvironment;
         }
 
         // GET: api/MembersMet/GetAll
@@ -33,24 +37,62 @@ namespace TakedaMock.Controllers
         }
 
         // POST: api/MembersMet
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        
         [HttpPost]
-        public async Task PostMemberMet(Colleague colleague)
+        public async Task PostMemberMet(Colleague colleague, IFormFile? file)
         {
+            if (file != null && file.Length > 0)
+            {
+                string wwwRootPath = _webHostEnvironment.WebRootPath;
+                string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+                string filePath = Path.Combine(wwwRootPath, "images", "colleagues", fileName);
+
+                colleague.ImageURL = filePath;
+
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    file.CopyTo(fileStream);
+                }
+            }
             await _unitOfWork.ColleagueRepository.Add(colleague);
             await _unitOfWork.Save();
         }
 
         // PUT: api/MembersMet/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutMemberMet(int id, Colleague colleagueMet)
+        public async Task<IActionResult> PutMemberMet(int id, Colleague colleagueMet, IFormFile? file)
         {
 
             Colleague DbColleague = await _unitOfWork.ColleagueRepository.Get(u => u.Id == id);
             if (DbColleague == null)
             {
                 return NotFound();
+            }
+
+            string wwwRootPath = _webHostEnvironment.WebRootPath;
+            if (file != null)
+            {
+                string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+                string filePath = Path.Combine(wwwRootPath, @"images\colleagues");
+
+                if (!string.IsNullOrEmpty(colleagueMet.ImageURL))
+                {
+                    //delete the old image
+                    var oldImagePath =
+                        Path.Combine(wwwRootPath, colleagueMet.ImageURL.TrimStart('\\'));
+
+                    if (System.IO.File.Exists(oldImagePath))
+                    {
+                        System.IO.File.Delete(oldImagePath);
+                    }
+                }
+                using (var fileStream = new FileStream(Path.Combine(filePath, fileName), FileMode.Create))
+                {
+                    file.CopyTo(fileStream);
+                }
+
+                colleagueMet.ImageURL = @"\images\colleagues\" + fileName;
             }
             DbColleague.Name = colleagueMet.Name;
             _unitOfWork.ColleagueRepository.Update(DbColleague);

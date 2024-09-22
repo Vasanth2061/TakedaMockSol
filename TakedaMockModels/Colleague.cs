@@ -20,7 +20,7 @@ namespace TakedaMockModels
 
         public string ImageURL { get; set; }
 
-        public Boolean IsTeamMemeber {  get; set; }
+        public Boolean IsTeamMember {  get; set; }
 
         //[Required]
         //public int MemberId { get; set; }
