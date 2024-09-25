@@ -117,6 +117,19 @@ namespace TakedaMock.Controllers
         public async Task<IActionResult> DeleteMemberMet(int id)
         {
             var colleague = await _unitOfWork.ColleagueRepository.Get(u => u.Id == id);
+            string wwwRootPath = _webHostEnvironment.WebRootPath;
+
+            if (!string.IsNullOrEmpty(colleague.ImageURL))
+            {
+                //delete the old image
+                var oldImagePath =
+                    Path.Combine(wwwRootPath, colleague.ImageURL.TrimStart('\\'));
+
+                if (System.IO.File.Exists(oldImagePath))
+                {
+                    System.IO.File.Delete(oldImagePath);
+                }
+            }
             _unitOfWork.ColleagueRepository.Remove(colleague);
             await _unitOfWork.Save();
             return NoContent();

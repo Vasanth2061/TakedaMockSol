@@ -97,7 +97,7 @@ namespace TakedaMock.Controllers
 
             DbColleague.ColleagueName = colleagueMet.ColleagueName;
             DbColleague.ImageURL= colleagueMet.ImageURL;
-            _unitOfWork.ColleagueRepository.Update(id,colleagueMet);
+            await _unitOfWork.ColleagueRepository.Update(id,colleagueMet);
             await _unitOfWork.Save();
 
             return NoContent();
@@ -113,32 +113,22 @@ namespace TakedaMock.Controllers
                 return NotFound();
             }
             colleague.IsTeamMember = false;
+
+            string wwwRootPath = _webHostEnvironment.WebRootPath;
+            if (!string.IsNullOrEmpty(colleague.ImageURL))
+            {
+                //delete the old image
+                var oldImagePath =
+                    Path.Combine(wwwRootPath, colleague.ImageURL.TrimStart('\\'));
+
+                if (System.IO.File.Exists(oldImagePath))
+                {
+                    System.IO.File.Delete(oldImagePath);
+                }
+            }
             await _unitOfWork.ColleagueRepository.Update(id,colleague);
             await _unitOfWork.Save();
             return NoContent();
         }
-
-        //[HttpPost("upload-image")]
-        //public async Task<IActionResult> UploadImage([FromForm] IFormFile file)
-        //{
-        //    if (file != null && file.Length > 0)
-        //    {
-        //        string wwwRootPath = _webHostEnvironment.WebRootPath;
-        //        string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
-        //        string filePath = Path.Combine(wwwRootPath, "images", "product", fileName);
-
-        //        using (var fileStream = new FileStream(filePath, FileMode.Create))
-        //        {
-        //            await file.CopyToAsync(fileStream);
-        //        }
-
-        //        // Return the image URL or file name to the client
-        //        return Ok(new { imageUrl = "/images/product/" + fileName });
-        //    }
-        //    else
-        //    {
-        //        return BadRequest("No file uploaded");
-        //    }
-        //}
     }
 }

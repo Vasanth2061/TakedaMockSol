@@ -105,7 +105,20 @@ namespace TakedaMock.Controllers
         public async Task<IActionResult> DeletePersonalImage(int id)
         {
             var personalImage = await _unitOfWork.PersonalImageRepository.Get(u => u.Id == id);
+
             _unitOfWork.PersonalImageRepository.Remove(personalImage);
+            string wwwRootPath = _webHostEnvironment.WebRootPath;
+            if (!string.IsNullOrEmpty(personalImage.ImageURL))
+             {
+                    //delete the old image
+                    var oldImagePath =
+                        Path.Combine(wwwRootPath, personalImage.ImageURL.TrimStart('\\'));
+
+                    if (System.IO.File.Exists(oldImagePath))
+                    {
+                        System.IO.File.Delete(oldImagePath);
+                    }
+                }
             await _unitOfWork.Save();
             return NoContent();
         }
