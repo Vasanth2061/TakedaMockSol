@@ -97,7 +97,7 @@ namespace TakedaMock.Controllers
 
             DbColleague.ColleagueName = colleagueMet.ColleagueName;
             DbColleague.ImageURL= colleagueMet.ImageURL;
-            _unitOfWork.ColleagueRepository.Update(DbColleague);
+            _unitOfWork.ColleagueRepository.Update(id,colleagueMet);
             await _unitOfWork.Save();
 
             return NoContent();
@@ -108,7 +108,12 @@ namespace TakedaMock.Controllers
         public async Task<IActionResult> DeleteTeamMember(int id)
         {
             var colleague = await _unitOfWork.ColleagueRepository.Get(u => u.Id == id);
-            _unitOfWork.ColleagueRepository.Remove(colleague);
+            if (colleague == null)
+            {
+                return NotFound();
+            }
+            colleague.IsTeamMember = false;
+            await _unitOfWork.ColleagueRepository.Update(id,colleague);
             await _unitOfWork.Save();
             return NoContent();
         }

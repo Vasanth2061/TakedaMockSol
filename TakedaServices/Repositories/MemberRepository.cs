@@ -16,9 +16,18 @@ namespace TakedaServices.Repositories
         {
             _db = db;
         }
-        public void Update(Member obj)
+        public async Task Update(int id,Member obj)
         {
-            _db.Members.Update(obj);
+            Member DbMember = await Get(u => u.Id == id);
+            DbMember.Name = obj.Name;
+            DbMember.PhoneNumber = obj.PhoneNumber;
+            DbMember.StreetAddress = obj.StreetAddress;
+            DbMember.City = obj.City;
+            DbMember.State = obj.State;
+            DbMember.DateOfBirth = obj.DateOfBirth;
+            DbMember.BackGround = obj.BackGround;
+            DbMember.PinCode = obj.PinCode;
+            _db.Members.Update(DbMember);
         }
     }
 }

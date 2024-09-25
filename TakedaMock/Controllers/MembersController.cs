@@ -62,10 +62,7 @@ namespace TakedaMock.Controllers
             {
                 return NotFound();
             }
-
-            
-            DbMember.Name= member.Name;
-            _unitOfWork.MemberRepository.Update(DbMember);
+            await _unitOfWork.MemberRepository.Update(id,member);
             await _unitOfWork.Save();
 
             return NoContent();

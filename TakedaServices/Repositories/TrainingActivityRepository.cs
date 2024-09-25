@@ -16,9 +16,14 @@ namespace TakedaServices.Repositories
         {
             _db = db;
         }
-        public void Update(TrainingActivity obj)
+        public async Task Update(int id,TrainingActivity obj)
         {
-            _db.TrainingActivities.Update(obj);
+            TrainingActivity DbTrainingActivity = await Get(u => u.Id == id);
+            DbTrainingActivity.Name = obj.Name;
+            DbTrainingActivity.Description = obj.Description;
+            DbTrainingActivity.StartDate = obj.StartDate;
+            DbTrainingActivity.EndDate = obj.EndDate;
+            _db.TrainingActivities.Update(DbTrainingActivity);
         }
     }
 }

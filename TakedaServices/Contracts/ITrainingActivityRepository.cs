@@ -9,6 +9,6 @@ namespace TakedaServices.Contracts
 {
     public interface ITrainingActivityRepository : IRepository<TrainingActivity>
     {
-        void Update(TrainingActivity obj);
+        Task Update(int id,TrainingActivity obj);
     }
 }

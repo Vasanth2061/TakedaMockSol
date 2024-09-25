@@ -16,9 +16,12 @@ namespace TakedaServices.Repositories
         {
             _db = db;
         }
-        public void Update(Technology obj)
+        public async Task Update(int id,Technology obj)
         {
-            _db.Technologies.Update(obj);
+            Technology DbTechnology = await Get(u => u.Id == id);
+            DbTechnology.Name = obj.Name;
+            DbTechnology.Proficiency = obj.Proficiency;
+            _db.Technologies.Update(DbTechnology);
         }
     }
 }

@@ -106,8 +106,7 @@ namespace TakedaMock.Controllers
 
                 colleagueMet.ImageURL = @"images\colleagues\" + fileName;
             }
-            DbColleague.ColleagueName = colleagueMet.ColleagueName;
-            _unitOfWork.ColleagueRepository.Update(DbColleague);
+            await _unitOfWork.ColleagueRepository.Update(id,colleagueMet);
             await _unitOfWork.Save();
 
             return NoContent();

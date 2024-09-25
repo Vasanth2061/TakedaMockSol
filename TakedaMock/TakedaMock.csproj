@@ -22,8 +22,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\images\members\" />
     <Folder Include="wwwroot\images\colleagues\" />
+    <Folder Include="wwwroot\images\members\" />
     <Folder Include="wwwroot\images\personalImages\" />
   </ItemGroup>
 

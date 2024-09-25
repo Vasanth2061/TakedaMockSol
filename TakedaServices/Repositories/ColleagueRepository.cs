@@ -18,9 +18,14 @@ namespace TakedaServices.Repositories
         }
 
         
-        public void Update(Colleague obj)
+        public async Task Update(int id,Colleague obj)
         {
-            _db.Colleagues.Update(obj);
+            Colleague DbColleague = await Get(u => u.Id == id);
+            DbColleague.ColleagueName = obj.ColleagueName;
+            DbColleague.IsTeamMember = obj.IsTeamMember;
+            DbColleague.ImageURL = obj.ImageURL;
+            DbColleague.Description = obj.Description;
+            _db.Colleagues.Update(DbColleague);
         }
     }
 }

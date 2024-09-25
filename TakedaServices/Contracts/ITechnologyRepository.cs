@@ -9,6 +9,6 @@ namespace TakedaServices.Contracts
 {
     public interface ITechnologyRepository : IRepository<Technology>
     {
-        void Update(Technology obj);
+        Task Update(int id,Technology obj);
     }
 }

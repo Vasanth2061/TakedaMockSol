@@ -50,8 +50,7 @@ namespace TakedaMock.Controllers
             {
                 return NotFound();
             }
-            DbTechnology.Name = technology.Name;
-            _unitOfWork.TechnologyRepository.Update(DbTechnology);
+            await _unitOfWork.TechnologyRepository.Update(id,technology);
             await _unitOfWork.Save();
 
             return NoContent();

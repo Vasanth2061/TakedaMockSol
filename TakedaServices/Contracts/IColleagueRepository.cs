@@ -9,6 +9,6 @@ namespace TakedaServices.Contracts
 {
     public interface IColleagueRepository: IRepository<Colleague>
     {
-        public void Update(Colleague obj);
+        public Task Update(int id,Colleague obj);
     }
 }

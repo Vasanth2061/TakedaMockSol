@@ -50,8 +50,7 @@ namespace TakedaMock.Controllers
             {
                 return NotFound();
             }
-            DbHobby.Name = hobby.Name;
-            _unitOfWork.HobbyRepository.Update(DbHobby);
+            await _unitOfWork.HobbyRepository.Update(id,hobby);
             await _unitOfWork.Save();
 
             return NoContent();

@@ -9,6 +9,6 @@ namespace TakedaServices.Contracts
 {
     public interface IHobbyRepository : IRepository<Hobby>
     {
-        void Update(Hobby obj);
+        Task Update(int id,Hobby obj);
     }
 }

@@ -51,8 +51,7 @@ namespace TakedaMock.Controllers
             {
                 return NotFound();
             }
-            DbTrainingActivity.Name = trainingActivity.Name;
-            _unitOfWork.TrainingActivityRepository.Update(DbTrainingActivity);
+            await _unitOfWork.TrainingActivityRepository.Update(id,trainingActivity);
             await _unitOfWork.Save();
 
             return NoContent();

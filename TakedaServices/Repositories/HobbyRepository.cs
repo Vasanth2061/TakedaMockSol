@@ -16,9 +16,12 @@ namespace TakedaServices.Repositories
         {
             _db = db;
         }
-        public void Update(Hobby obj)
+        public async Task Update(int id,Hobby obj)
         {
-            _db.Hobbies.Update(obj);
+            Hobby DbHobby = await Get(u => u.Id == id);
+            DbHobby.Name = obj.Name;
+            DbHobby.Description = obj.Description;
+            _db.Hobbies.Update(DbHobby);
         }
     }
 }
