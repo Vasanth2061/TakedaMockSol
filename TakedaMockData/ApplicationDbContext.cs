@@ -20,6 +20,12 @@ namespace TakedaMockData
 
         public DbSet<Colleague> Colleagues { get; set; }
 
+        public DbSet<Technology> Technologies { get; set; }
+
+        public DbSet<PersonalImage> PersonalImages { get; set; }
+
+        public DbSet<Hobby> Hobbies { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -30,16 +36,13 @@ namespace TakedaMockData
                    Id = 1,
                    BackGround = "A 2024 Graduate working in Deloitte for 2 months",
                    DateOfBirth = "21/02/2002",
-                   Hobbies = new List<string> { "Cricket", "Light Novels" },
                    Name = "Vasanth M",
                    PhoneNumber = "7975110608",
                    UnivEducation = "Btech ECE, NITK",
-                   Tegnologies = new List<string> { "C#", "SQL Server", "HTML", "CSS", "JavaScript" },
                    StreetAddress = "No 439, Vasanth Nilayam,3rd cross, Prakruti Badavane layout, Anchepalya",
                    City = "Bangalore",
                    State = "Karnataka",
-                   PinCode = "560057",
-                   Images = new List<string> {"",""}
+                   PinCode = "560057"
                }
             );
 
@@ -56,12 +59,20 @@ namespace TakedaMockData
             modelBuilder.Entity<Colleague>().HasData(
                 new Colleague 
                 {
-                    Id=1, Name="Jeevan Krishna", ImageURL=" ",
+                    Id=1, ColleagueName="Jeevan Krishna", ImageURL=" ",
                     Description=" Met during SPARK training. Both of us are Tamilains, so got along well",
                     IsTeamMember=true
                 }
             );
 
+            modelBuilder.Entity<Technology>().HasData(
+                new Technology { Id=1, Name="C#", Proficiency=4 },
+                new Technology { Id = 2, Name = "SQL-Server", Proficiency = 4 }
+            );
+
+            modelBuilder.Entity<Hobby>().HasData(
+                new Hobby { Id = 1,Name="Cricket", Description="Self explanatory."}
+            );
 
         }
     }

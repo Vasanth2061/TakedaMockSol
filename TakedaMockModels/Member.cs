@@ -38,20 +38,6 @@ namespace TakedaMockModels
         public string BackGround { get; set; }
 
         public string UnivEducation { get; set; }
-
-        public List<string> Hobbies { get; set; }
-
-        [Required]
-
-        public List<String> Tegnologies { get; set; }
-
-        public List<String> Images { get; set; }
-
-        ////[ValidateNever]
-        //public virtual IList<TrainingActivity> TrainingActivities { get; set; }
-
-        ////[ValidateNever]
-        //public virtual IList<Colleague> Colleagues { get; set; }
-
+        
     }
 }

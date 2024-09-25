@@ -14,17 +14,13 @@ namespace TakedaMockModels
 
         [Required]
         [MaxLength(100)]
-        public string Name { get; set; }
+        public string ColleagueName { get; set; }
         [Required]
         public string Description { get; set; } 
 
-        public string ImageURL { get; set; }
+        public string? ImageURL { get; set; }
 
         public Boolean IsTeamMember {  get; set; }
 
-        //[Required]
-        //public int MemberId { get; set; }
-        //[ForeignKey(nameof(MemberId))]
-        //public Member Member { get; set; }
     }
 }

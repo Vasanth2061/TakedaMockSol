@@ -29,21 +29,20 @@ namespace TakedaMockDataAccess.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("ColleagueName")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ImageURL")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsTeamMember")
                         .HasColumnType("bit");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
 
                     b.HasKey("Id");
 
@@ -53,10 +52,39 @@ namespace TakedaMockDataAccess.Migrations
                         new
                         {
                             Id = 1,
+                            ColleagueName = "Jeevan Krishna",
                             Description = " Met during SPARK training. Both of us are Tamilains, so got along well",
                             ImageURL = " ",
-                            IsTeamMember = true,
-                            Name = "Jeevan Krishna"
+                            IsTeamMember = true
+                        });
+                });
+
+            modelBuilder.Entity("TakedaMockModels.Hobby", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Hobbies");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Description = "Self explanatory.",
+                            Name = "Cricket"
                         });
                 });
 
@@ -81,14 +109,6 @@ namespace TakedaMockDataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Hobbies")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Images")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(30)
@@ -110,10 +130,6 @@ namespace TakedaMockDataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Tegnologies")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("UnivEducation")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -129,15 +145,62 @@ namespace TakedaMockDataAccess.Migrations
                             BackGround = "A 2024 Graduate working in Deloitte for 2 months",
                             City = "Bangalore",
                             DateOfBirth = "21/02/2002",
-                            Hobbies = "[\"Cricket\",\"Light Novels\"]",
-                            Images = "[\"\",\"\"]",
                             Name = "Vasanth M",
                             PhoneNumber = "7975110608",
                             PinCode = "560057",
                             State = "Karnataka",
                             StreetAddress = "No 439, Vasanth Nilayam,3rd cross, Prakruti Badavane layout, Anchepalya",
-                            Tegnologies = "[\"C#\",\"SQL Server\",\"HTML\",\"CSS\",\"JavaScript\"]",
                             UnivEducation = "Btech ECE, NITK"
+                        });
+                });
+
+            modelBuilder.Entity("TakedaMockModels.PersonalImage", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ImageURL")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("PersonalImages");
+                });
+
+            modelBuilder.Entity("TakedaMockModels.Technology", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Proficiency")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Technologies");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "C#",
+                            Proficiency = 4
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "SQL-Server",
+                            Proficiency = 4
                         });
                 });
 

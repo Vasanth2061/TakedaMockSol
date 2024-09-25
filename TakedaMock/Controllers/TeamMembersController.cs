@@ -40,7 +40,7 @@ namespace TakedaMock.Controllers
         // POST: api/TeamMembers
         
         [HttpPost]
-        public async Task PostTeamMember(Colleague colleague, [FromForm] IFormFile? file)
+        public async Task PostTeamMember([FromForm] Colleague colleague, [FromForm] IFormFile? file)
         {
             if (file != null && file.Length > 0)
             {
@@ -95,7 +95,7 @@ namespace TakedaMock.Controllers
                 colleagueMet.ImageURL = @"\images\colleagues\" + fileName;
             }
 
-            DbColleague.Name = colleagueMet.Name;
+            DbColleague.ColleagueName = colleagueMet.ColleagueName;
             _unitOfWork.ColleagueRepository.Update(DbColleague);
             await _unitOfWork.Save();
 

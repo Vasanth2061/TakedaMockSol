@@ -37,29 +37,41 @@ namespace TakedaMock.Controllers
         }
 
         // POST: api/MembersMet
-        
+
         [HttpPost]
-        public async Task PostMemberMet(Colleague colleague, [FromForm] IFormFile? file)
+        public async Task<IActionResult> PostMemberMet([FromForm] Colleague colleague, [FromForm] IFormFile? file)
         {
+            if (colleague == null)
+            {
+                return BadRequest("Colleague data is required.");
+            }
+
+            colleague.ImageURL = " ";
+
             if (file != null && file.Length > 0)
             {
                 string wwwRootPath = _webHostEnvironment.WebRootPath;
                 string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
                 string filePath = Path.Combine(wwwRootPath, "images", "colleagues", fileName);
 
-                colleague.ImageURL = filePath;
+                colleague.ImageURL = $"/images/colleagues/{fileName}";
 
                 using (var fileStream = new FileStream(filePath, FileMode.Create))
                 {
-                    file.CopyTo(fileStream);
+                    await file.CopyToAsync(fileStream);
                 }
             }
+
             await _unitOfWork.ColleagueRepository.Add(colleague);
             await _unitOfWork.Save();
+
+            return Ok(colleague);
         }
 
-        // PUT: api/MembersMet/5
         
+
+        // PUT: api/MembersMet/5
+
         [HttpPut("{id}")]
         public async Task<IActionResult> PutMemberMet(int id, Colleague colleagueMet, [FromForm] IFormFile? file)
         {
@@ -94,7 +106,7 @@ namespace TakedaMock.Controllers
 
                 colleagueMet.ImageURL = @"\images\colleagues\" + fileName;
             }
-            DbColleague.Name = colleagueMet.Name;
+            DbColleague.ColleagueName = colleagueMet.ColleagueName;
             _unitOfWork.ColleagueRepository.Update(DbColleague);
             await _unitOfWork.Save();
 
