@@ -13,6 +13,12 @@ namespace TakedaServices.Contracts
         public IMemberRepository MemberRepository { get; }
 
         public ITrainingActivityRepository TrainingActivityRepository { get; }
+
+        public ITechnologyRepository TechnologyRepository { get; }
+
+        public IHobbyRepository HobbyRepository { get; }
+
+        public IPersonalImageRepository PersonalImageRepository { get; }
         Task Save();
     }
 }

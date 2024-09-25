@@ -16,6 +16,12 @@ namespace TakedaServices.Repositories
 
         public IMemberRepository MemberRepository { get; private set; }
 
+        public IPersonalImageRepository PersonalImageRepository { get; private set; }
+
+        public ITechnologyRepository TechnologyRepository { get; private set; }
+
+        public IHobbyRepository HobbyRepository { get; private set; }
+
         public ITrainingActivityRepository TrainingActivityRepository { get; private set; }
 
         public UnitOfWork(ApplicationDbContext db)
@@ -24,6 +30,9 @@ namespace TakedaServices.Repositories
             ColleagueRepository= new ColleagueRepository(_db);
             MemberRepository= new MemberRepository(_db);
             TrainingActivityRepository= new TrainingActivityRepository(_db);
+            TechnologyRepository= new TechnologyRepository(_db);
+            HobbyRepository= new HobbyRepository(_db);
+            PersonalImageRepository= new PersonalImageRepository(_db);
         }
 
         public async Task Save()
