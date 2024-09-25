@@ -22,7 +22,7 @@ namespace TakedaMock.Controllers
             _webHostEnvironment = webHostEnvironment;
         }
 
-        // GET: api/members/GetAll
+        // GET: api/Members/GetAll
         [HttpGet("GetAll")]
         public async Task<ActionResult<IEnumerable<Member>>> GetMembers()
         {
@@ -30,7 +30,7 @@ namespace TakedaMock.Controllers
             return Ok(members);
         }
 
-        // GET: api/members/1
+        // GET: api/Members/1
         [HttpGet("{id}")]
         public async Task<ActionResult<Member>> GetMember(int id)
         {
@@ -38,7 +38,7 @@ namespace TakedaMock.Controllers
             return Ok(member);
         }
 
-        // POST: api/members
+        // POST: api/Members
 
         [HttpPost]
         public async Task<IActionResult> PostMember([FromForm] Member createMember)
@@ -48,32 +48,10 @@ namespace TakedaMock.Controllers
                 return BadRequest("Member data is required.");
             }
 
-            //createMember.Images = new List<string>();
-
-            //foreach (var file in files)
-            //{
-            //    if (file != null && file.Length > 0)
-            //    {
-            //        string wwwRootPath = _webHostEnvironment.WebRootPath;
-            //        string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
-            //        string filePath = Path.Combine(wwwRootPath, "images", "members", fileName);
-
-            //        createMember.Images.Add($"/images/members/{fileName}");
-
-            //        using (var fileStream = new FileStream(filePath, FileMode.Create))
-            //        {
-            //            await file.CopyToAsync(fileStream);
-            //        }
-            //    }
-            //}
-
-            //await _unitOfWork.MemberRepository.Add(createMember);
-            //await _unitOfWork.Save();
-
             return Ok(createMember);
         }
 
-        // PUT: api/members/5
+        // PUT: api/Members/5
 
         [HttpPut("{id}")]
         public async Task<IActionResult> PutMember(int id, Member member)
@@ -85,35 +63,7 @@ namespace TakedaMock.Controllers
                 return NotFound();
             }
 
-            //string wwwRootPath = _webHostEnvironment.WebRootPath;
-            //int i = 0;
-            //foreach (var file in files)
-            //{
-            //    if (file != null)
-            //    {
-            //        string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
-            //        string filePath = Path.Combine(wwwRootPath, @"images\members");
-
-            //        if (!string.IsNullOrEmpty(member.Images[i]))
-            //        {
-            //            //delete the old image
-            //            var oldImagePath =
-            //                Path.Combine(wwwRootPath, member.Images[i].TrimStart('\\'));
-
-            //            if (System.IO.File.Exists(oldImagePath))
-            //            {
-            //                System.IO.File.Delete(oldImagePath);
-            //            }
-            //        }
-            //        using (var fileStream = new FileStream(Path.Combine(filePath, fileName), FileMode.Create))
-            //        {
-            //            file.CopyTo(fileStream);
-            //        }
-
-            //        member.Images[i] = @"\images\members\" + fileName;
-            //    }
-            //    i++;
-            //}
+            
             DbMember.Name= member.Name;
             _unitOfWork.MemberRepository.Update(DbMember);
             await _unitOfWork.Save();
@@ -121,7 +71,7 @@ namespace TakedaMock.Controllers
             return NoContent();
         }
 
-        // DELETE: api/members/5
+        // DELETE: api/Members/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCountry(int id)
         {

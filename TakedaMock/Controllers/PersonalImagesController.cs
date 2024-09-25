@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TakedaMockModels;
 using TakedaServices.Contracts;
@@ -11,12 +12,15 @@ namespace TakedaMock.Controllers
     {
         private readonly IUnitOfWork _unitOfWork;
 
-        public PersonalImagesController(IUnitOfWork unitOfWork)
+        private readonly IWebHostEnvironment _webHostEnvironment;
+
+        public PersonalImagesController(IUnitOfWork unitOfWork, IWebHostEnvironment webHostEnvironment)
         {
             _unitOfWork = unitOfWork;
+            _webHostEnvironment = webHostEnvironment;
         }
 
-        // GET: api/TrainingActivities/GetAll
+        // GET: api/PersonalImages/GetAll
         [HttpGet("GetAll")]
         public async Task<ActionResult<IEnumerable<PersonalImage>>> GetPersonalImages()
         {
@@ -24,7 +28,7 @@ namespace TakedaMock.Controllers
             return Ok(members);
         }
 
-        // GET: api/TrainingActivities/1
+        // GET: api/PersonalImages/1
         [HttpGet("{id}")]
         public async Task<ActionResult<PersonalImage>> GetPersonalImage(int id)
         {
@@ -32,17 +36,32 @@ namespace TakedaMock.Controllers
             return Ok(member);
         }
 
-        // POST: api/TrainingActivities
+        // POST: api/PersonalImages
         [HttpPost]
-        public async Task PostPersonalImage(PersonalImage personalImage)
+        public async Task PostPersonalImage([FromForm] IFormFile? file)
         {
+            PersonalImage personalImage = new PersonalImage();
+
+            if (file != null && file.Length > 0)
+            {
+                string wwwRootPath = _webHostEnvironment.WebRootPath;
+                string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+                string filePath = Path.Combine(wwwRootPath, "images", "personalImages", fileName);
+
+                personalImage.ImageURL = $"images/personalImages/{fileName}";
+
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    await file.CopyToAsync(fileStream);
+                }
+            }
             await _unitOfWork.PersonalImageRepository.Add(personalImage);
             await _unitOfWork.Save();
         }
 
-        // PUT: api/TrainingActivities/5
+        // PUT: api/PersonalImages/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutPersonalImage(int id, PersonalImage personalImage)
+        public async Task<IActionResult> PutPersonalImage(int id, [FromForm] IFormFile? file)
         {
 
             PersonalImage DbPersonalImage = await _unitOfWork.PersonalImageRepository.Get(u => u.Id == id);
@@ -50,14 +69,38 @@ namespace TakedaMock.Controllers
             {
                 return NotFound();
             }
-            DbPersonalImage.ImageURL = personalImage.ImageURL;
+
+            string wwwRootPath = _webHostEnvironment.WebRootPath;
+            if (file != null)
+            {
+                string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+                string filePath = Path.Combine(wwwRootPath, @"images\colleagues");
+
+                if (!string.IsNullOrEmpty(DbPersonalImage.ImageURL))
+                {
+                    //delete the old image
+                    var oldImagePath =
+                        Path.Combine(wwwRootPath, DbPersonalImage.ImageURL.TrimStart('\\'));
+
+                    if (System.IO.File.Exists(oldImagePath))
+                    {
+                        System.IO.File.Delete(oldImagePath);
+                    }
+                }
+                using (var fileStream = new FileStream(Path.Combine(filePath, fileName), FileMode.Create))
+                {
+                    file.CopyTo(fileStream);
+                }
+
+                DbPersonalImage.ImageURL = @"images\colleagues\" + fileName;
+            }
             _unitOfWork.PersonalImageRepository.Update(DbPersonalImage);
             await _unitOfWork.Save();
 
             return NoContent();
         }
 
-        // DELETE: api/TrainingActivities/5
+        // DELETE: api/PersonalImages/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeletePersonalImage(int id)
         {

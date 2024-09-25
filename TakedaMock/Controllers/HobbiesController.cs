@@ -16,7 +16,7 @@ namespace TakedaMock.Controllers
             _unitOfWork = unitOfWork;
         }
 
-        // GET: api/TrainingActivities/GetAll
+        // GET: api/Hobbies/GetAll
         [HttpGet("GetAll")]
         public async Task<ActionResult<IEnumerable<Hobby>>> GetHobbies()
         {
@@ -24,7 +24,7 @@ namespace TakedaMock.Controllers
             return Ok(members);
         }
 
-        // GET: api/TrainingActivities/1
+        // GET: api/Hobbies/1
         [HttpGet("{id}")]
         public async Task<ActionResult<Hobby>> GetHobby(int id)
         {
@@ -32,7 +32,7 @@ namespace TakedaMock.Controllers
             return Ok(hobby);
         }
 
-        // POST: api/TrainingActivities
+        // POST: api/Hobbies
         [HttpPost]
         public async Task PostHobby(Hobby hobby)
         {
@@ -40,7 +40,7 @@ namespace TakedaMock.Controllers
             await _unitOfWork.Save();
         }
 
-        // PUT: api/TrainingActivities/5
+        // PUT: api/Hobbies/5
         [HttpPut("{id}")]
         public async Task<IActionResult> PutHobby(int id, Hobby hobby)
         {
@@ -57,7 +57,7 @@ namespace TakedaMock.Controllers
             return NoContent();
         }
 
-        // DELETE: api/TrainingActivities/5
+        // DELETE: api/Hobbies/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> HobbyTechnology(int id)
         {

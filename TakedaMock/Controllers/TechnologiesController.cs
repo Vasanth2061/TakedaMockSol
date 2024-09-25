@@ -16,7 +16,7 @@ namespace TakedaMock.Controllers
             _unitOfWork = unitOfWork;
         }
 
-        // GET: api/TrainingActivities/GetAll
+        // GET: api/Technologies/GetAll
         [HttpGet("GetAll")]
         public async Task<ActionResult<IEnumerable<Technology>>> GetTechnologies()
         {
@@ -24,7 +24,7 @@ namespace TakedaMock.Controllers
             return Ok(members);
         }
 
-        // GET: api/TrainingActivities/1
+        // GET: api/Technologies/1
         [HttpGet("{id}")]
         public async Task<ActionResult<Technology>> GetTechnology(int id)
         {
@@ -32,7 +32,7 @@ namespace TakedaMock.Controllers
             return Ok(member);
         }
 
-        // POST: api/TrainingActivities
+        // POST: api/Technologies
         [HttpPost]
         public async Task PostTechnology(Technology technology)
         {
@@ -40,7 +40,7 @@ namespace TakedaMock.Controllers
             await _unitOfWork.Save();
         }
 
-        // PUT: api/TrainingActivities/5
+        // PUT: api/Technologies/5
         [HttpPut("{id}")]
         public async Task<IActionResult> PutTechnology(int id, Technology technology)
         {
@@ -57,7 +57,7 @@ namespace TakedaMock.Controllers
             return NoContent();
         }
 
-        // DELETE: api/TrainingActivities/5
+        // DELETE: api/Technologies/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteTechnology(int id)
         {

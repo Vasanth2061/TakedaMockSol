@@ -54,7 +54,7 @@ namespace TakedaMock.Controllers
                 string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
                 string filePath = Path.Combine(wwwRootPath, "images", "colleagues", fileName);
 
-                colleague.ImageURL = $"/images/colleagues/{fileName}";
+                colleague.ImageURL = $"images/colleagues/{fileName}";
 
                 using (var fileStream = new FileStream(filePath, FileMode.Create))
                 {
@@ -73,7 +73,7 @@ namespace TakedaMock.Controllers
         // PUT: api/MembersMet/5
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutMemberMet(int id, Colleague colleagueMet, [FromForm] IFormFile? file)
+        public async Task<IActionResult> PutMemberMet(int id, [FromForm] Colleague colleagueMet, [FromForm] IFormFile? file)
         {
 
             Colleague DbColleague = await _unitOfWork.ColleagueRepository.Get(u => u.Id == id);
@@ -104,7 +104,7 @@ namespace TakedaMock.Controllers
                     file.CopyTo(fileStream);
                 }
 
-                colleagueMet.ImageURL = @"\images\colleagues\" + fileName;
+                colleagueMet.ImageURL = @"images\colleagues\" + fileName;
             }
             DbColleague.ColleagueName = colleagueMet.ColleagueName;
             _unitOfWork.ColleagueRepository.Update(DbColleague);
